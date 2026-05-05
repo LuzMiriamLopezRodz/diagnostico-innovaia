@@ -1262,8 +1262,15 @@ function handleMLSubmit(e) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ name, lastname, email, nivel })
   })
-  .then(() => showResult())
-  .catch(() => showResult());
+  .then(res => res.json())
+  .then(data => {
+    if (data.error) showToast('Error: ' + data.error);
+    showResult();
+  })
+  .catch(err => {
+    showToast('Error de conexión: ' + err.message);
+    showResult();
+  });
 }
 
 function showResult() {
